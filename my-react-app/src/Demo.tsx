@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { DataTable } from "primereact/datatable";
+import { useState, useEffect, useRef } from "react";
+import { DataTable, DataTableStateEvent } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { ProductService } from "./ProductService";
@@ -34,12 +34,7 @@ export default function BasicDemo() {
   useEffect(() => {
     fetchArtworks(currentPage, rowsPerPage);
   }, [currentPage, rowsPerPage]);
-
-  const onPageChange = (event: {
-    first: number;
-    rows: number;
-    page: number | undefined;
-  }) => {
+  const onPageChange = (event: DataTableStateEvent) => {
     if (event.page !== undefined) {
       const newPage = event.page + 1;
       setCurrentPage(newPage);
@@ -78,7 +73,7 @@ export default function BasicDemo() {
         tableStyle={{ minWidth: "50rem" }}
         selectionMode={rowClick ? null : "checkbox"}
         selection={selectedArtworks}
-        onSelectionChange={(e: { value: Artwork[] | null }) => {
+        onSelectionChange={(e: { value: Artwork[] }) => {
           setSelectedArtworks(e.value || []);
         }}
         dataKey="id"
